@@ -10,6 +10,12 @@ const createUser = tryCatch(async (req, res, next) => {
     res.status(201).json({ success: true, msg: 'User Added Successfully' })
 })
 
+
+const getUserNames = tryCatch(async (req, res, next) => {
+    const users = await User.find({}, 'name')
+    res.status(200).json({ success: true, users })
+})
+
 const rewardPoints = tryCatch(async (req, res, next) => {
     const points = Math.floor(Math.random() * 10) + 1
     const user = await User.findByIdAndUpdate(
@@ -41,4 +47,4 @@ const getUsers = tryCatch(async (req, res, next) => {
     res.status(200).json({ success: true, users })
 })
 
-export { createUser, rewardPoints, getUsers }
+export { createUser, getUserNames, rewardPoints, getUsers }
