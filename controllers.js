@@ -3,9 +3,10 @@ import { User } from "./models/User.js"
 import { ErrorHandler } from './util.js'
 
 const createUser = tryCatch(async (req, res, next) => {
-    const userExists = await User.findOne({ name: req.body })
-    if (!userExists) return next(new ErrorHandler(400, 'A user with the same name already exists'))
-    const user = await User.create({ name: req.body })
+    const { name } = req.body
+    const userExists = await User.findOne({ name })
+    if (userExists) return next(new ErrorHandler(400, 'A user with the same name already exists'))
+    const user = await User.create({ name })
     res.status(201).json({ success: true, msg: 'User Added Successfully' })
 })
 
