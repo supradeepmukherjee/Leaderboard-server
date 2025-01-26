@@ -18,8 +18,8 @@ const getUserNames = tryCatch(async (req, res, next) => {
 
 const rewardPoints = tryCatch(async (req, res, next) => {
     const points = Math.floor(Math.random() * 10) + 1
-    const user = await User.findByIdAndUpdate(
-        req.body.id,
+    const user = await User.findOneAndUpdate(
+        { name: req.body.name },
         {
             $inc: { points },
             $push: {
@@ -39,7 +39,7 @@ const rewardPoints = tryCatch(async (req, res, next) => {
             update: { $set: { rank: i + 1 } }
         }
     })))
-    res.status(200).json({ success: true, msg: `WOW! You got ${points} points` })
+    res.status(200).json({ success: true, msg: `WOW! ${user.name} got ${points} point${points > 1 ? 's' : ''}` })
 })
 
 const getUsers = tryCatch(async (req, res, next) => {
