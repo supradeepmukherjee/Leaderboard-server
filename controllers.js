@@ -6,7 +6,8 @@ const createUser = tryCatch(async (req, res, next) => {
     const { name } = req.body
     const userExists = await User.findOne({ name })
     if (userExists) return next(new ErrorHandler(400, 'A user with the same name already exists'))
-    const user = await User.create({ name })
+    const numberOfUsers = await User.countDocuments()
+    const user = await User.create({ name, rank: numberOfUsers + 1 })
     res.status(201).json({ success: true, msg: 'User Added Successfully' })
 })
 

@@ -32,16 +32,4 @@ const schema = new Schema({
     { timestamps: true }
 )
 
-schema.pre('save', async function (next) {
-    if (!this.rank) {
-        try {
-            const userCount = await mongoose.models.RewardsUser.countDocuments()
-            this.rank = userCount + 1
-        } catch (error) {
-            console.error('Error calculating rank:', error)
-        }
-    }
-    next()
-});
-
 export const User = mongoose.models.RewardsUser || model('RewardsUser', schema)
