@@ -44,7 +44,7 @@ const rewardPoints = tryCatch(async (req, res, next) => {
 })
 
 const getUsers = tryCatch(async (req, res, next) => {
-    const users = await User.find()
+    const users = await User.find().sort({ rank: 1 })
     res.status(200).json({ success: true, users })
 })
 
